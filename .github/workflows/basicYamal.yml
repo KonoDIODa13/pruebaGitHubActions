@@ -24,3 +24,22 @@ jobs:
 
     - name: Run tests
       run: flutter test
+
+    - name: Lint code
+      run: flutter analyze
+
+    - name: Check code formatting
+      run: flutter format --set-exit-if-changed.
+
+    - name: Build APK for Android
+      run: flutter build apk --release
+
+    - name: Build iOS App
+      if: runner.os == 'macOS'
+      run: flutter build ios --release
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v2
+      with:
+        name: android-apk
+        path: build/app/outputs/flutter-apk/app-release.apk
