@@ -43,3 +43,12 @@ jobs:
       with:
         name: android-apk
         path: build/app/outputs/flutter-apk/app-release.apk
+
+    - name: Deploy to Firebase App Distribution
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      run: |
+        flutter build apk --release
+        firebase appdistribution:distribute build/app/outputs/flutter-apk/app-release.apk \
+        --app your-firebase-app-id \
+        --groups testers
